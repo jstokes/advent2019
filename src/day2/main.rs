@@ -34,17 +34,33 @@ fn main() {
         });
 
     let filename = "../day2/input.txt";
-    let mut inputs: Vec<i32> = fs::read_to_string(filename)
+    let inputs: Vec<i32> = fs::read_to_string(filename)
         .expect("Something went wrong reading file.")
         .split(',')
         .filter_map(|n| n.parse::<i32>().ok())
         .collect();
 
+    let mut part1 = inputs.clone();
+
     // Set state to 1202
-    inputs[1] = 12;
-    inputs[2] = 2;
+    part1[1] = 12;
+    part1[2] = 2;
 
-    run_program(&mut inputs);
+    run_program(&mut part1);
 
-    println!("The value at position 0 is {}", inputs[0]);
+    println!("The value at position 0 is {}", part1[0]);
+
+    for n in 0..=99 {
+        for v in 0..=99 {
+            let mut part2 = inputs.clone();
+            part2[1] = n;
+            part2[2] = v;
+            run_program(&mut part2);
+            if part2[0] == 19690720 {
+                println!("Noun = {}, Verb = {}, Result = {}",
+                         n, v, 100 * n + v);
+                break;
+            }
+        }
+    }
 }
